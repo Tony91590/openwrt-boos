@@ -168,6 +168,8 @@ detect_mac80211() {
 			set wireless.radio${devidx}.band=${mode_band}
 			set wireless.radio${devidx}.htmode=$htmode
 			set wireless.radio1.htmode=HE160
+			set wireless.radio1.mu_beamformer=1
+			set wireless.radio2.mu_beamformer=1
 			set wireless.radio${devidx}.disabled=0
 			set wireless.radio${devidx}.country=US
 			
