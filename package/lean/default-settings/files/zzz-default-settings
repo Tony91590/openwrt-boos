@@ -30,6 +30,17 @@ sed -i 's/services/nas/g'  /usr/lib/lua/luci/view/minidlna_status.htm
 
 ln -sf /sbin/ip /usr/bin/ip
 
+sed -i 's#src/gz openwrt_core https://downloads.openwrt.org/snapshots/targets/ipq807x/generic/packages#src/gz openwrt_base http://downloads.openwrt.org/releases/18.06-SNAPSHOT/packages/aarch64_cortex-a53/base#g' /etc/opkg/distfeeds.conf
+sed -i 's#src/gz openwrt_base https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/base#src/gz openwrt_packages http://downloads.openwrt.org/releases/18.06-SNAPSHOT/packages/aarch64_cortex-a53/packages#g' /etc/opkg/distfeeds.conf
+sed -i 's#src/gz openwrt_Boos https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/Boos#src/gz openwrt_routing http://downloads.openwrt.org/releases/18.06-SNAPSHOT/packages/aarch64_cortex-a53/routing#g' /etc/opkg/distfeeds.conf
+sed -i 's#src/gz openwrt_luci https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/luci# #g' /etc/opkg/distfeeds.conf
+sed -i 's#src/gz openwrt_packages https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/packages# #g' /etc/opkg/distfeeds.conf
+sed -i 's#src/gz openwrt_routing https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/routing# #g' /etc/opkg/distfeeds.conf
+sed -i 's#src/gz openwrt_telephony https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/telephony# #g' /etc/opkg/distfeeds.conf
+
+sed -i "s/# //g" /etc/opkg/distfeeds.conf
+sed -i '/openwrt_luci/ { s/snapshots/releases\/18.06.9/g; }'  /etc/opkg/distfeeds.conf
+
 sed -i '/REDIRECT --to-ports 53/d' /etc/firewall.user
 echo 'iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 53' >> /etc/firewall.user
 echo 'iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53' >> /etc/firewall.user
