@@ -68,8 +68,8 @@ BEGIN {
         if (channel) {
 		mode="NOHT"
 		if (ht) mode="HT20"
-		if (vht && band != "1:") mode="VHT160"
-		if (he) mode="HE160"
+		if (vht && band != "1:") mode="VHT80"
+		if (he) mode="HE80"
 		if (he && band == "1:") mode="HE20"
                 sub("\\[", "", channel)
                 sub("\\]", "", channel)
@@ -166,7 +166,8 @@ detect_mac80211() {
 			${dev_id}
 			set wireless.radio${devidx}.channel=${channel}
 			set wireless.radio${devidx}.band=${mode_band}
-			set wireless.radio${devidx}.htmode=$htmode
+			set wireless.radio0.htmode=20
+			set wireless.radio1.htmode=160
 			set wireless.radio${devidx}.disabled=0
 			set wireless.radio${devidx}.country=US
 			
@@ -176,6 +177,7 @@ detect_mac80211() {
 			set wireless.default_radio${devidx}.mode=ap
 			set wireless.default_radio${devidx}.ssid=OpenWrt
 			set wireless.default_radio${devidx}.encryption=none
+			set wireless.default_radio1.he_bss_color=22
 EOF
 		uci -q commit wireless
 
