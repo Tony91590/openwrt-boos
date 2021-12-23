@@ -68,8 +68,8 @@ BEGIN {
         if (channel) {
 		mode="NOHT"
 		if (ht) mode="HT20"
-		if (vht && band != "1:") mode="VHT160"
-		if (he) mode="HE160"
+		if (vht && band != "1:") mode="VHT80"
+		if (he) mode="HE80"
 		if (he && band == "1:") mode="HE20"
                 sub("\\[", "", channel)
                 sub("\\]", "", channel)
@@ -166,12 +166,9 @@ detect_mac80211() {
 			${dev_id}
 			set wireless.radio${devidx}.channel=${channel}
 			set wireless.radio${devidx}.band=${mode_band}
-                        set wireless.radio${devidx}.htmode=$htmode
+			set wireless.radio${devidx}.htmode=$htmode
 			set wireless.radio${devidx}.disabled=0
-			set wireless.radio0.disabled=1
-			set wireless.radio1.he_bss_color=22
-			set wireless.radio1.channel=auto
-			set wireless.radio2.channel=auto
+			set wireless.radio${devidx}=auto
 			set wireless.radio${devidx}.country=US
 			
 			set wireless.default_radio${devidx}=wifi-iface
@@ -180,12 +177,6 @@ detect_mac80211() {
 			set wireless.default_radio${devidx}.mode=ap
 			set wireless.default_radio${devidx}.ssid=OpenWrt
 			set wireless.default_radio${devidx}.encryption=none
-			set wireless.default_radio2.ssid=Tenda_4BA290
-			set wireless.default_radio1.ssid=Tenda_4BA290_5G
-                        set wireless.default_radio1.encryption=psk2
-			set wireless.default_radio1.key=bettyboop
-			set wireless.default_radio2.encryption=psk2
-			set wireless.default_radio2.key=bettyboop
 EOF
 		uci -q commit wireless
 
