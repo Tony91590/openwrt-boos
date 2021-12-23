@@ -170,6 +170,8 @@ detect_mac80211() {
 			set wireless.radio${devidx}.disabled=0
 			set wireless.radio0.disabled=1
 			set wireless.radio1.he_bss_color=22
+			set wireless.radio1.channel=auto
+			set wireless.radio2.channel=auto
 			set wireless.radio${devidx}.country=US
 			
 			set wireless.default_radio${devidx}=wifi-iface
