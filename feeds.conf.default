@@ -2,4 +2,4 @@ src-git packages https://github.com/Tony91590/packages.git
 src-git luci https://github.com/Tony91590/luci.git
 src-git routing https://github.com/openwrt/routing.git
 src-git telephony https://git.openwrt.org/feed/telephony.git
-src-git Boos https://github.com/Boos4721/OpenWrt-Packages.git
+#src-git Boos https://github.com/Boos4721/OpenWrt-Packages.git
