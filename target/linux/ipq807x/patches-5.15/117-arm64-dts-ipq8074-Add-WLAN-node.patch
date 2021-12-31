@@ -1,10 +1,12 @@
-From 0fb054684bdf40f17ab59226dae21ddfe0d79466 Mon Sep 17 00:00:00 2001
+From 04b31589f5e6b6994ad079174dac19cb8dd48410 Mon Sep 17 00:00:00 2001
 From: Robert Marko <robimarko@gmail.com>
-Date: Thu, 13 May 2021 15:15:46 +0200
+Date: Tue, 21 Dec 2021 14:49:36 +0100
 Subject: [PATCH] arm64: dts: ipq8074: Add WLAN node
 
-IPQ8074 is supported by ath11k, so add the required
-DT node.
+IPQ8074 has a AHB based Q6v5 802.11ax radios that are supported
+by the ath11k.
+
+Add the required DT node to enable the built-in radios.
 
 Signed-off-by: Robert Marko <robimarko@gmail.com>
 ---
@@ -13,10 +15,11 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 
 --- a/arch/arm64/boot/dts/qcom/ipq8074.dtsi
 +++ b/arch/arm64/boot/dts/qcom/ipq8074.dtsi
-@@ -1027,6 +1027,117 @@
+@@ -979,5 +979,116 @@
+ 				};
  			};
  		};
- 
++
 +		wifi: wifi@c0000000 {
 +			compatible = "qcom,ipq8074-wifi";
 +			reg = <0xc000000 0x2000000>;
@@ -127,7 +130,5 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 +			qcom,rproc = <&q6v5_wcss>;
 +			status = "disabled";
 +		};
-+
- 		ess_switch: ess-switch@3a000000 {
- 			compatible = "qcom,ess-switch-ipq807x";
- 			reg = <0x3a000000 0x1000000>;
+ 	};
+ };

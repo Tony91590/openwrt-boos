@@ -1,20 +1,22 @@
-From 67ba6e563928123fc65dab604592a60da2cce648 Mon Sep 17 00:00:00 2001
+From d201f67714a302b12ad3d78b982963342939629c Mon Sep 17 00:00:00 2001
 From: Robert Marko <robimarko@gmail.com>
-Date: Tue, 11 May 2021 18:24:35 +0200
-Subject: [PATCH] arm64: dts: ipq8074: Add MDIO support
+Date: Thu, 7 Oct 2021 13:58:46 +0200
+Subject: [PATCH] arm64: dts: qcom: ipq8074: add MDIO bus
 
-MDIO controller is the same one as in IPQ4019, so
-lets add the node to support it.
+IPQ8074 uses an IPQ4019 compatible MDIO controller that is already
+supported in the kernel, so add the DT node in order to use it.
 
 Signed-off-by: Robert Marko <robimarko@gmail.com>
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Link: https://lore.kernel.org/r/20211007115846.26255-1-robimarko@gmail.com
 ---
  arch/arm64/boot/dts/qcom/ipq8074.dtsi | 12 ++++++++++++
  1 file changed, 12 insertions(+)
 
 --- a/arch/arm64/boot/dts/qcom/ipq8074.dtsi
 +++ b/arch/arm64/boot/dts/qcom/ipq8074.dtsi
-@@ -264,6 +264,18 @@
- 			status = "disabled";
+@@ -230,6 +230,18 @@
+ 			};
  		};
  
 +		mdio: mdio@90000 {
@@ -24,7 +26,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 +			#size-cells = <0>;
 +
 +			clocks = <&gcc GCC_MDIO_AHB_CLK>;
-+			clock-names = "mdio_ahb";
++			clock-names = "gcc_mdio_ahb_clk";
 +
 +			status = "disabled";
 +		};
