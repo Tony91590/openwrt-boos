@@ -10,7 +10,6 @@ case $board in
 xiaomi,ax3600|\
 redmi,ax6)
 	ucidef_set_led_netdev "wan" "WAN" "blue:network" "eth0"
-	ucidef_set_led_defaulton "led" "LED" "blue:aiot" 
 	;;
 esac
 
