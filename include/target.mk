@@ -41,7 +41,7 @@ DEFAULT_PACKAGES.nas:=\
 	mdadm
 # For router targets
 DEFAULT_PACKAGES.router:=\
-	dnsmasq_full_dhcpv6 \
+	dnsmasq_full \
 	firewall \
 	iptables \
 	ppp \
