@@ -54,11 +54,7 @@ DEFAULT_PACKAGES.router:=\
 	kmod-nf-nathelper-extra \
 	kmod-ipt-raw kmod-tun \
 	default-settings \
-	luci-app-cpufreq \
 	luci \
-	luci-i18n-base-fr \
-	luci-i18n-firewall-fr \
-	luci-i18n-upnp-fr \
 	luci-app-upnp \
 	luci-app-ttyd \
 	luci-app-turboacc 
