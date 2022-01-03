@@ -51,7 +51,6 @@ DEFAULT_PACKAGES.tweak:=\
 	UA2F \
 	luci-newapi \
 	block-mount \ 
-	coremark \
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
 	kmod-ipt-raw \
