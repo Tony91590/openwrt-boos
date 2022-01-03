@@ -41,7 +41,7 @@ DEFAULT_PACKAGES.nas:=\
 	mdadm
 # For router targets
 DEFAULT_PACKAGES.router:=\
-	dnsmasq_full \
+	dnsmasq_full_dhcpv6 \
 	firewall \
 	iptables \
 	ppp \
@@ -52,9 +52,14 @@ DEFAULT_PACKAGES.router:=\
 	coremark \
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
-	kmod-ipt-raw kmod-tun \
+	kmod-ipt-raw \
+	kmod-tun \
 	default-settings \
+	luci-app-cpufreq \
 	luci \
+	luci-i18n-base-fr \
+	luci-i18n-firewall-fr \
+	luci-i18n-upnp-fr \
 	luci-app-upnp \
 	luci-app-ttyd \
 	luci-app-turboacc 
