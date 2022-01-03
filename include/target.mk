@@ -45,7 +45,9 @@ DEFAULT_PACKAGES.router:=\
 	firewall \
 	iptables \
 	ppp \
-	ppp-mod-pppoe \
+	ppp-mod-pppoe 
+# For easy usage
+DEFAULT_PACKAGES.tweak:=\
 	UA2F \
 	luci-newapi \
 	block-mount \ 
