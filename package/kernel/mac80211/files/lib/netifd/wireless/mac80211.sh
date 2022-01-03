@@ -436,8 +436,6 @@ mac80211_hostapd_setup_base() {
 
 		append base_cfg "he_default_pe_duration=4" "$N"
 		append base_cfg "he_rts_threshold=1023" "$N"
-		append base_cfg "he_bss_color=8" "$N"
-		append base_cfg "airtime_bss_weight=1" "$N"
 		append base_cfg "he_mu_edca_qos_info_param_count=0" "$N"
 		append base_cfg "he_mu_edca_qos_info_q_ack=0" "$N"
 		append base_cfg "he_mu_edca_qos_info_queue_request=0" "$N"
