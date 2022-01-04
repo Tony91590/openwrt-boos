@@ -54,6 +54,3 @@ msgstr "Memoire virtuelle"
 
 msgid "Force 40MHz mode"
 msgstr "Forcer le mode 40MHz"
-
-msgid "Disassociate On Low Acknowledgement"
-msgstr "Dissocier en cas d'accuse de reception faible"
