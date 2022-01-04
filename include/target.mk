@@ -53,7 +53,7 @@ DEFAULT_PACKAGES.nas:=\
 	mdadm
 # For router targets
 DEFAULT_PACKAGES.router:=\
-	dnsmasq-full_dhcpv6 \
+	dnsmasq-full \
 	firewall \
 	iptables \
 	ipv6helper \
