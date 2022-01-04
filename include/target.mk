@@ -62,7 +62,7 @@ DEFAULT_PACKAGES.router:=\
 # For easy usage
 DEFAULT_PACKAGES.tweak:=\
 	block-mount \
-	default-settings-chn \
+	default-settings \
 	kmod-ipt-raw \
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
