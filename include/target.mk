@@ -62,7 +62,6 @@ DEFAULT_PACKAGES.tweak:=\
 	block-mount \
 	coremark \
 	kmod-tun \
-	ip-tiny \
 	default-settings \
 	kmod-ipt-raw \
 	kmod-nf-nathelper \
