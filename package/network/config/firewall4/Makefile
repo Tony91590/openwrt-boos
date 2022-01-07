@@ -9,9 +9,9 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=$(PROJECT_GIT)/project/firewall4.git
-PKG_SOURCE_DATE:=2021-09-01
-PKG_SOURCE_VERSION:=cf835cecc8a449b2d2019f1ef4f085e535d5c1c1
-PKG_MIRROR_HASH:=5798b76846107dde69a2a1ff3467f735b9a91a74106fbd6299d8a26eff70b9c2
+PKG_SOURCE_DATE:=2022-01-06
+PKG_SOURCE_VERSION:=b68cf67019452527d6a5a967b823a39dd1ba1edd
+PKG_MIRROR_HASH:=8ae8bc8ce71e55adc6d89bd5f97c90834127c733d22e37182119d45eb77c0583
 PKG_MAINTAINER:=Jo-Philipp Wich <jo@mein.io>
 PKG_LICENSE:=ISC
 
@@ -21,8 +21,12 @@ define Package/firewall4
   SECTION:=net
   CATEGORY:=Base system
   TITLE:=OpenWrt 4th gen firewall
-  DEPENDS:=+ucode +ucode-mod-fs +ucode-mod-uci +ucode-mod-ubus +kmod-nft-core +kmod-nft-fib +kmod-nft-nat +kmod-nft-nat6 +nftables-json
-  CONFLICTS:=firewall kmod-ipt-nat
+  DEPENDS:= \
+	+kmod-nft-core +kmod-nft-fib +kmod-nft-offload \
+	+kmod-nft-nat +kmod-nft-nat6 \
+	+nftables-json \
+	+ucode +ucode-mod-fs +ucode-mod-ubus +ucode-mod-uci
+  CONFLICTS:=firewall
 endef
 
 define Package/firewall4/description
