@@ -6,10 +6,14 @@ uci commit luci
 uci set system.@system[0].timezone=CET-1CEST,M3.5.0,M10.5.0/3
 uci set system.@system[0].zonename=Europe/Paris
 uci set system.led_wan.mode='link'
+uci set system.led_lan.mode='link'
 uci commit system
 
 uci set fstab.@global[0].anon_mount=1
 uci commit fstab
+
+uci set wireless.radio0.disabled=1
+uci commit wireless && wifi
 
 rm -f /usr/lib/lua/luci/view/admin_status/index/mwan.htm
 rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
@@ -36,9 +40,6 @@ echo 'iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 53'
 echo 'iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53' >> /etc/firewall.user
 echo '[ -n "$(command -v ip6tables)" ] && ip6tables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 53' >> /etc/firewall.user
 echo '[ -n "$(command -v ip6tables)" ] && ip6tables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53' >> /etc/firewall.user
-
-sed -i '/option disabled/d' /etc/config/wireless
-sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
 
 sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
 echo "DISTRIB_REVISION='R22.1.1'" >> /etc/openwrt_release

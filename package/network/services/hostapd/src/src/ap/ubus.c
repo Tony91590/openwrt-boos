@@ -1948,4 +1948,4 @@ int hostapd_ubus_notify_bss_transition_query(
 
 	return ureq.resp;
 #endif
-}
+

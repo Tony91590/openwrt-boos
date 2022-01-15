@@ -12,6 +12,7 @@ DEVICE_TYPE?=router
 # Default packages - the really basic set
 DEFAULT_PACKAGES:=\
 	base-files \
+	ca-bundle \
 	dropbear \
 	fstools \
 	libc \
@@ -23,12 +24,23 @@ DEFAULT_PACKAGES:=\
 	opkg \
 	uci \
 	uclient-fetch \
-	urandom-seed
+	urandom-seed \
+	urngd
 
 ifneq ($(CONFIG_SELINUX),)
 DEFAULT_PACKAGES+=busybox-selinux procd-selinux
 else
 DEFAULT_PACKAGES+=busybox procd
+endif
+
+# include ujail on systems with enough storage
+ifeq ($(CONFIG_SMALL_FLASH),)
+DEFAULT_PACKAGES+=procd-ujail
+endif
+
+# include seccomp ld-preload hooks if kernel supports it
+ifneq ($(CONFIG_SECCOMP),)
+DEFAULT_PACKAGES+=procd-seccomp
 endif
 
 # For the basic set
@@ -41,18 +53,15 @@ DEFAULT_PACKAGES.nas:=\
 	mdadm
 # For router targets
 DEFAULT_PACKAGES.router:=\
-	dnsmasq-full \
+	dnsmasq \
 	firewall \
+	ip6tables \
 	iptables \
+	kmod-ipt-offload \
+	odhcp6c \
+	odhcpd-ipv6only \
 	ppp \
-	ppp-mod-pppoe \
-	UA2F \
-	luci-newapi block-mount coremark kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw kmod-tun \
-	default-settings luci luci-app-ddns luci-app-upnp luci-app-autoreboot \
-	luci-app-filetransfer luci-app-easymesh luci-app-arpbind \
-	luci-app-vlmcsd luci-app-ramfree luci-app-unblockneteasemusic \
-	luci-app-advanced luci-app-argon-config luci-theme-argon luci-app-ttyd \
-	luci-app-turboacc ddns-scripts_aliyun ddns-scripts_dnspod ddns-scripts_cloudflare.com-v4
+
 
 ifneq ($(DUMP),)
   all: dumpinfo
@@ -84,6 +93,9 @@ else
     -include ./$(SUBTARGET)/target.mk
   endif
 endif
+
+# Add tweaked packages
+DEFAULT_PACKAGES += $(DEFAULT_PACKAGES.tweak)
 
 # Add device specific packages (here below to allow device type set from subtarget)
 DEFAULT_PACKAGES += $(DEFAULT_PACKAGES.$(DEVICE_TYPE))
