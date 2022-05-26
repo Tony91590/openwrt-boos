@@ -18,17 +18,10 @@ jobs:
             - name: Generate config for IPQ807x Generic
               run: |
                 echo "CONFIG_TARGET_ipq807x=y" > .config
-                echo "CONFIG_TARGET_ipq807x_generic=y\n" >> .config
-                echo "CONFIG_TARGET_MULTI_PROFILE=y\n" >> .config
-                echo "CONFIG_TARGET_ALL_PROFILES=y\n" >> .config
-                echo "CONFIG_TARGET_PER_DEVICE_ROOTFS=y\n" >> .config
-                echo "CONFIG_TARGET_ROOTFS_INITRAMFS=y\n" >> .config
-                echo "CONFIG_TARGET_INITRAMFS_COMPRESSION_ZSTD=y\n" >> .config
-                echo "CONFIG_PACKAGE_luci=y\n" >> .config
-                echo "CONFIG_PACKAGE_kmod-qca-nss-dp=y\n" >> .config
-                echo "CONFIG_PACKAGE_qca-ssdk-shell=y\n" >> .config
-                echo "CONFIG_PACKAGE_wpad-basic-wolfssl=m\n" >> .config
-                echo "CONFIG_PACKAGE_wpad-wolfssl=y\n" >> .config
+                echo "CONFIG_TARGET_ipq807x_generic=y" >> .config
+                echo "CONFIG_TARGET_ipq807x_generic_DEVICE_xiaomi_ax3600=y" >> .config
+                echo "CONFIG_FSTOOLS_UBIFS_EXTROOT=n" >> .config
+                echo "CONFIG_ATH11K_MEM_PROFILE_512MB=y" >> .config
                 make defconfig
 
             - name: Download package sources
@@ -72,14 +65,11 @@ jobs:
             - name: Extract the image artifacts
               run: tar xf ipq807xx-images.tar
 
-            - name: Get the current date
-              run: echo "NOW=$(date +%F)" >> $GITHUB_ENV
-
             - name: Create a release
               uses: "marvinpinto/action-automatic-releases@latest"
               with:
                 repo_token: "${{ secrets.GITHUB_TOKEN }}"
                 prerelease: true
-                title: "Updated prebuilt images ${{ env.NOW }}"
-                automatic_release_tag: "ipq807x-${{ env.NOW }}"
+                title: "Updated built images"
+                automatic_release_tag: "ipq807x-latest"
                 files: bin/targets/ipq807x/generic/*
