@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=autocore
-PKG_FLAGS:=nonshared
+PKG_VERSION:=2
 PKG_RELEASE:=$(COMMITCOUNT)
 
 PKG_CONFIG_DEPENDS:= \
@@ -16,50 +16,63 @@ PKG_CONFIG_DEPENDS:= \
 include $(INCLUDE_DIR)/package.mk
 
 define Package/autocore-arm
-  TITLE:=Arm auto core loadbalance script
+  TITLE:=ARM auto core script.
   MAINTAINER:=CN_SZTL
   DEPENDS:=@(arm||aarch64) \
     +TARGET_bcm27xx:bcm27xx-userland \
-    +TARGET_bcm53xx:nvram \
-	+ethtool
+    +TARGET_bcm53xx:nvram
   VARIANT:=arm
 endef
 
 define Package/autocore-x86
-  TITLE:=x86/x64 auto core loadbalance script
-  MAINTAINER:=Lean
-  DEPENDS:=@TARGET_x86 +lm-sensors +ethtool
+  TITLE:=x86/x64 auto core loadbalance script.
+  MAINTAINER:=Lean / CN_SZTL
+  DEPENDS:=@TARGET_x86 +bc +lm-sensors +ethtool
   VARIANT:=x86
+endef
+
+define Package/autocore-arm/description
+  Display more details info about the devices in LuCI.
+endef
+
+define Package/autocore-x86/description
+  A USB autoconfig hotplug script.
 endef
 
 define Build/Compile
 endef
 
-define Package/autocore/install/Default
+define Package/autocore-arm/install
 	$(INSTALL_DIR) $(1)/etc
-	$(CP) ./files/generic/index.htm $(1)/etc/
+	$(INSTALL_BIN) ./files/arm/rpcd_luci $(1)/etc/rpcd_luci
+	$(INSTALL_DATA) ./files/arm/rpcd_luci-mod-status.json $(1)/etc/rpcd_luci-mod-status.json
+	$(INSTALL_DATA) ./files/arm/rpcd_10_system.js $(1)/etc/rpcd_10_system.js
 
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_BIN) ./files/generic/090-cover-index_htm $(1)/etc/uci-defaults/
+	$(INSTALL_BIN) ./files/090-cover-index_files $(1)/etc/uci-defaults/090-cover-index_files
 
 	$(INSTALL_DIR) $(1)/sbin
-	$(INSTALL_BIN) ./files/generic/cpuinfo $(1)/sbin/
-	$(INSTALL_BIN) ./files/generic/ethinfo $(1)/sbin/
-endef
-
-define Package/autocore-arm/install
-	$(call Package/autocore/install/Default,$(1))
-
-ifneq (, $(findstring $(BOARD), ipq40xx ipq806x ipq807x))
-	$(INSTALL_BIN) ./files/arm/tempinfo $(1)/sbin/
-endif
+	$(INSTALL_BIN) ./files/arm/cpuinfo $(1)/sbin/cpuinfo
 endef
 
 define Package/autocore-x86/install
-	$(call Package/autocore/install/Default,$(1))
+	$(INSTALL_DIR) $(1)/etc
+	$(INSTALL_BIN) ./files/x86/rpcd_luci $(1)/etc/rpcd_luci
+	$(INSTALL_DATA) ./files/x86/rpcd_luci-mod-status.json $(1)/etc/rpcd_luci-mod-status.json
+	$(INSTALL_DATA) ./files/x86/rpcd_10_system.js $(1)/etc/rpcd_10_system.js
 
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/x86/autocore $(1)/etc/init.d/
+	$(INSTALL_BIN) ./files/x86/autocore $(1)/etc/init.d/autocore
+
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(INSTALL_BIN) ./files/090-cover-index_files $(1)/etc/uci-defaults/090-cover-index_files
+
+	$(INSTALL_DIR) $(1)/sbin
+	$(INSTALL_BIN) ./files/x86/cpuinfo $(1)/sbin/cpuinfo
+	$(INSTALL_BIN) ./files/x86/ethinfo $(1)/sbin/ethinfo
+
+	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/status/include
+	$(INSTALL_DATA) ./files/x86/rpcd_21_ethinfo.js $(1)/www/luci-static/resources/view/status/include/21_ethinfo.js
 endef
 
 $(eval $(call BuildPackage,autocore-arm))
