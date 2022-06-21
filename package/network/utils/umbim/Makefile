@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=umbim
-PKG_RELEASE:=1
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=$(PROJECT_GIT)/project/umbim.git
-PKG_SOURCE_DATE:=2019-09-11
-PKG_SOURCE_VERSION:=184b707ddaa0acee84d02e0ffe599cb8b67782bd
-PKG_MIRROR_HASH:=482ff69144f81fafed99035840f5a24e772472f2df2f3ac0219d6de791ac5835
+PKG_SOURCE_DATE:=2021-08-18
+PKG_SOURCE_VERSION:=de5623104baee6e0c13c92f05c15bf4b4145c0b1
+PKG_MIRROR_HASH:=2d4a75d2b53c8413521a2fd138895e327bff3f4b4d29a540342b2d2e1e009852
 PKG_MAINTAINER:=John Crispin <john@phrozen.org>
 
 PKG_LICENSE:=GPL-2.0
@@ -35,10 +35,6 @@ endef
 
 TARGET_CFLAGS += \
 	-I$(STAGING_DIR)/usr/include -ffunction-sections -fdata-sections
-
-# Disable GCC 9 warning about pointers to members of a packed struct
-GCCV_GE = $(filter $(1),$(shell echo -e "$(1)\n$(GCCV)" | sort -V | head -n1))
-TARGET_CFLAGS += $(if $(call GCCV_GE,9),-Wno-address-of-packed-member)
 
 TARGET_LDFLAGS += -Wl,--gc-sections
 

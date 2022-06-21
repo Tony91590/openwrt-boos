@@ -1113,7 +1113,7 @@ sub top_of_openwrt_tree {
 	my ($root) = @_;
 
 	my @tree_check = (
-		"BSDmakefile", "Config.in", "LICENSE", "Makefile", "README.md",
+		"BSDmakefile", "Config.in", "LICENSES", "Makefile", "README.md",
 		"feeds.conf.default", "include", "package", "rules.mk",
 		"scripts", "target", "toolchain", "tools"
 	);
@@ -4697,7 +4697,7 @@ sub process {
 ## 		    $line !~ /^.\s*$Type\s+$Ident(?:\s*=[^,{]*)?\s*,\s*$Type\s*$Ident.*/) {
 ##
 ## 			# Remove any bracketed sections to ensure we do not
-## 			# falsly report the parameters of functions.
+## 			# falsely report the parameters of functions.
 ## 			my $ln = $line;
 ## 			while ($ln =~ s/\([^\(\)]*\)//g) {
 ## 			}

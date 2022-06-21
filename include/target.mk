@@ -10,13 +10,23 @@ __target_inc=1
 DEVICE_TYPE?=router
 
 # Default packages - the really basic set
-DEFAULT_PACKAGES:=base-files libc libgcc dropbear mtd uci opkg netifd fstools uclient-fetch logd urandom-seed urngd \
-block-mount coremark kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw wget-ssl libustream-openssl ca-certificates \
-default-settings luci luci-app-ddns luci-app-upnp luci-app-adbyby-plus luci-app-autoreboot luci-newapi \
-luci-app-filetransfer luci-app-vsftpd luci-app-ssr-plus luci-app-unblockmusic \
-luci-app-arpbind luci-app-vlmcsd luci-app-wol luci-app-ramfree \
-luci-app-sfe luci-app-nlbwmon luci-app-accesscontrol luci-app-cpufreq \
-ddns-scripts_aliyun ddns-scripts_dnspod
+DEFAULT_PACKAGES:=\
+	base-files \
+	dropbear \
+	fstools \
+	libc \
+	libgcc \
+	libustream-openssl \
+	logd \
+	mtd \
+	netifd \
+	opkg \
+	uci \
+	uclient-fetch \
+	zsh \
+	git \
+	bind-dig \
+	urandom-seed
 
 ifneq ($(CONFIG_SELINUX),)
 DEFAULT_PACKAGES+=busybox-selinux procd-selinux
@@ -24,11 +34,27 @@ else
 DEFAULT_PACKAGES+=busybox procd
 endif
 
+# For the basic set
+DEFAULT_PACKAGES.basic:=
 # For nas targets
-DEFAULT_PACKAGES.nas:=block-mount fdisk lsblk mdadm
+DEFAULT_PACKAGES.nas:=\
+	block-mount \
+	fdisk \
+	lsblk \
+	mdadm
 # For router targets
-DEFAULT_PACKAGES.router:=dnsmasq-full iptables ppp ppp-mod-pppoe firewall
-DEFAULT_PACKAGES.bootloader:=
+DEFAULT_PACKAGES.router:=\
+	dnsmasq-full \
+	firewall \
+	iptables \
+	ppp \
+	ppp-mod-pppoe \
+	luci-newapi block-mount coremark kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw kmod-tun kmod-inet-diag iptables-mod-tproxy iptables-mod-extra \
+	default-settings luci luci-app-ddns luci-app-upnp luci-app-autoreboot \
+	luci-app-filetransfer luci-app-eqos luci-app-arpbind \
+	luci-app-ramfree luci-app-unblockneteasemusic \
+	luci-app-advanced luci-app-argon-config luci-theme-argon luci-app-ttyd \
+	luci-app-turboacc ddns-scripts_aliyun ddns-scripts_dnspod ddns-scripts_cloudflare.com-v4
 
 ifneq ($(DUMP),)
   all: dumpinfo
@@ -141,22 +167,30 @@ USE_SUBTARGET_CONFIG = $(if $(wildcard $(LINUX_TARGET_CONFIG)),,$(if $(LINUX_SUB
 LINUX_RECONFIG_LIST = $(wildcard $(GENERIC_LINUX_CONFIG) $(LINUX_TARGET_CONFIG) $(if $(USE_SUBTARGET_CONFIG),$(LINUX_SUBTARGET_CONFIG)))
 LINUX_RECONFIG_TARGET = $(if $(USE_SUBTARGET_CONFIG),$(LINUX_SUBTARGET_CONFIG),$(LINUX_TARGET_CONFIG))
 
+CFG_TARGET = $(CONFIG_TARGET)
+ifeq ($(CFG_TARGET),platform)
+  CFG_TARGET = target
+  $(warning Deprecation warning: use CONFIG_TARGET=target instead.)
+else ifeq ($(CFG_TARGET),subtarget_platform)
+  CFG_TARGET = subtarget_target
+  $(warning Deprecation warning: use CONFIG_TARGET=subtarget_target instead.)
+endif
+
 # select the config file to be changed by kernel_menuconfig/kernel_oldconfig
-ifeq ($(CONFIG_TARGET),platform)
+ifeq ($(CFG_TARGET),target)
   LINUX_RECONFIG_LIST = $(wildcard $(GENERIC_LINUX_CONFIG) $(LINUX_TARGET_CONFIG))
   LINUX_RECONFIG_TARGET = $(LINUX_TARGET_CONFIG)
-endif
-ifeq ($(CONFIG_TARGET),subtarget)
+else ifeq ($(CFG_TARGET),subtarget)
   LINUX_RECONFIG_LIST = $(wildcard $(GENERIC_LINUX_CONFIG) $(LINUX_TARGET_CONFIG) $(LINUX_SUBTARGET_CONFIG))
   LINUX_RECONFIG_TARGET = $(LINUX_SUBTARGET_CONFIG)
-endif
-ifeq ($(CONFIG_TARGET),subtarget_platform)
+else ifeq ($(CFG_TARGET),subtarget_target)
   LINUX_RECONFIG_LIST = $(wildcard $(GENERIC_LINUX_CONFIG) $(LINUX_SUBTARGET_CONFIG) $(LINUX_TARGET_CONFIG))
   LINUX_RECONFIG_TARGET = $(LINUX_TARGET_CONFIG)
-endif
-ifeq ($(CONFIG_TARGET),env)
+else ifeq ($(CFG_TARGET),env)
   LINUX_RECONFIG_LIST = $(LINUX_KCONFIG_LIST)
   LINUX_RECONFIG_TARGET = $(TOPDIR)/env/kernel-config
+else ifneq ($(strip $(CFG_TARGET)),)
+  $(error CONFIG_TARGET=$(CFG_TARGET) is invalid. Valid: target|subtarget|subtarget_target|env)
 endif
 
 __linux_confcmd = $(2) $(patsubst %,+,$(wordlist 2,9999,$(1))) $(1)

@@ -24,8 +24,8 @@ PKG_CPE_ID:=cpe:/a:gnu:gettext
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
 PKG_BUILD_DEPENDS:=gettext-full/host
-PKG_BUILD_PARALLEL:=1
-HOST_BUILD_PARALLEL:=1
+PKG_BUILD_PARALLEL:=0
+HOST_BUILD_PARALLEL:=0
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
@@ -86,6 +86,11 @@ define Build/InstallDev
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/share/aclocal/* $(1)/usr/share/aclocal/
 
 	$(SED) '/read dummy/d' $(STAGING_DIR_HOSTPKG)/bin/gettextize
+endef
+
+define Host/Install
+	$(call Host/Install/Default)
+	$(LN) msgfmt $(STAGING_DIR_HOSTPKG)/bin/gmsgfmt
 endef
 
 define Package/libintl-full/install

@@ -1,0 +1,13 @@
+WARNNING: Disclaimer: DFS specification is not supported in China And Other DFS Restricted Countries
+
+--- a/src/ap/dfs.c
++++ b/src/ap/dfs.c
+@@ -890,6 +890,8 @@ int hostapd_handle_dfs(struct hostapd_if
+ 		}
+ 	} while (res);
+ 
++    iface->dfs_cac_ms=1000;
++
+ 	/* Finally start CAC */
+ 	hostapd_set_state(iface, HAPD_IFACE_DFS);
+ 	wpa_printf(MSG_DEBUG, "DFS start CAC on %d MHz%s", iface->freq,
