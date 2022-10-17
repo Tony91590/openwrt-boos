@@ -269,7 +269,8 @@ define KernelPackage/ath10k
   FILES:= \
 	$(PKG_BUILD_DIR)/drivers/net/wireless/ath/ath10k/ath10k_core.ko \
 	$(PKG_BUILD_DIR)/drivers/net/wireless/ath/ath10k/ath10k_pci.ko
-  AUTOLOAD:=$(call AutoProbe,ath10k_pci)
+  AUTOLOAD:=$(call AutoProbe,ath10k_core ath10k_pci)
+  MODPARAMS.ath10k_core:=frame_mode=2
   VARIANT:=regular
 endef
 
@@ -288,6 +289,7 @@ define KernelPackage/ath10k/config
 
        config ATH10K_THERMAL
                bool "Enable thermal sensors and throttling support"
+               default y
                depends on PACKAGE_kmod-ath10k || PACKAGE_kmod-ath10k-smallbuffers
 
 endef
@@ -303,9 +305,12 @@ define KernelPackage/ath11k
   TITLE:=Qualcomm 802.11ax wireless chipset support (common code)
   URL:=https://wireless.wiki.kernel.org/en/users/drivers/ath11k
   DEPENDS+= +kmod-ath +@DRIVER_11N_SUPPORT +@DRIVER_11AC_SUPPORT +@DRIVER_11AX_SUPPORT \
-  +kmod-qcom-qmi-helpers +kmod-crypto-michael-mic +ATH11K_THERMAL:kmod-hwmon-core \
-  +ATH11K_THERMAL:kmod-thermal
-  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/ath/ath11k/ath11k.ko
+  +kmod-crypto-michael-mic +ATH11K_THERMAL:kmod-hwmon-core +ATH11K_THERMAL:kmod-thermal
+  FILES:=$(PKG_BUILD_DIR)/drivers/soc/qcom/qmi_helpers.ko \
+  $(PKG_BUILD_DIR)/drivers/net/wireless/ath/ath11k/ath11k.ko
+  AUTOLOAD:=$(call AutoProbe,ath11k)
+  # Enable encapsulation/decapsulation offload by default
+  MODPARAMS.ath11k:=frame_mode=2
 endef
 
 define KernelPackage/ath11k/description
@@ -394,7 +399,7 @@ endef
 define KernelPackage/ar5523
   $(call KernelPackage/mac80211/Default)
   TITLE:=Driver for Atheros AR5523 USB sticks
-  DEPENDS:=@USB_SUPPORT +kmod-mac80211 +kmod-ath +kmod-usb-core +kmod-input-core
+  DEPENDS:=@USB_SUPPORT +kmod-mac80211 +kmod-ath +kmod-usb-core +kmod-input-core 
   FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/ath/ar5523/ar5523.ko
   AUTOLOAD:=$(call AutoProbe,ar5523)
 endef
