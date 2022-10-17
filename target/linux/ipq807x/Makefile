@@ -12,7 +12,7 @@ KERNEL_PATCHVER:=5.15
 
 include $(INCLUDE_DIR)/target.mk
 DEFAULT_PACKAGES += \
-	kmod-leds-gpio kmod-gpio-button-hotplug \
+	kmod-leds-gpio kmod-gpio-button-hotplug qca-ssdk-shell \
 	ath11k-firmware-ipq8074 kmod-ath11k-ahb kmod-qca-nss-drv kmod-qca-nss-dp kmod-qca-nss-drv-pppoe kmod-qca-nss-drv-bridge-mgr nss-firmware-ipq8074 \
 	wpad-wolfssl libwolfssl-benchmark uboot-envtools zram-swap autocore-arm htop \
 
