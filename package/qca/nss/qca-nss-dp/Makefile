@@ -18,14 +18,14 @@ define KernelPackage/qca-nss-dp
   SECTION:=kernel
   CATEGORY:=Kernel modules
   SUBMENU:=Network Devices
-  DEPENDS:=@(TARGET_ipq807x||TARGET_ipq60xx) +kmod-qca-ssdk-nohnat
-  TITLE:=Kernel driver for NSS data plane
+  DEPENDS:=@TARGET_ipq807x +kmod-qca-ssdk
+  TITLE:=Qualcom NSS dataplane ethernet driver
   FILES:=$(PKG_BUILD_DIR)/qca-nss-dp.ko
   AUTOLOAD:=$(call AutoLoad,31,qca-nss-dp,1)
 endef
 
 define KernelPackage/qca-nss-dp/Description
-This package contains a NSS data plane driver for QCA chipset
+  NSS dataplane ethernet driver for Qualcom SoCs.
 endef
 
 define Build/InstallDev
