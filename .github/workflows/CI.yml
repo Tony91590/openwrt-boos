@@ -12,7 +12,7 @@ name: OpenWrt-CI
 on:
   push:
     branches: 
-      - Ax6-update
+      - Perso
   # schedule:
   #   - cron: 0 20 * * *
   release:
@@ -33,7 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: Ax6-update
+          ref: Perso
 
       - name: Space cleanup
         env:
