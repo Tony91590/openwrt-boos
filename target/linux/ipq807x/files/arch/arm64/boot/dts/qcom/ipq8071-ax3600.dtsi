@@ -98,19 +98,19 @@
 	pinctrl-names = "default";
 	reset-gpios = <&tlmm 37 GPIO_ACTIVE_LOW>;
 
-	ethernet-phy@1 {
+	qca8075_1: ethernet-phy@1 {
 		reg = <1>;
 	};
 
-	ethernet-phy@2 {
+	qca8075_2: ethernet-phy@2 {
 		reg = <2>;
 	};
 
-	ethernet-phy@3 {
+	qca8075_3: ethernet-phy@3 {
 		reg = <3>;
 	};
 
-	ethernet-phy@4 {
+	qca8075_4: ethernet-phy@4 {
 		reg = <4>;
 	};
 };
@@ -436,10 +436,8 @@
 		reg = <0x3a001200 0x200>;
 		qcom,mactype = <0>;
 		local-mac-address = [000000000000];
-		qcom,link-poll = <1>;
-		qcom,phy-mdio-addr = <1>;
+		phy-handle = <&qca8075_1>;
 		phy-mode = "sgmii";
-		mdio-bus = <&mdio>;
 	};
 
 	dp3: dp3 {
@@ -449,10 +447,8 @@
 		reg = <0x3a001400 0x200>;
 		qcom,mactype = <0>;
 		local-mac-address = [000000000000];
-		qcom,link-poll = <1>;
-		qcom,phy-mdio-addr = <2>;
+		phy-handle = <&qca8075_2>;
 		phy-mode = "sgmii";
-		mdio-bus = <&mdio>;
 	};
 
 	dp4: dp4 {
@@ -462,10 +458,8 @@
 		reg = <0x3a001600 0x200>;
 		qcom,mactype = <0>;
 		local-mac-address = [000000000000];
-		qcom,link-poll = <1>;
-		qcom,phy-mdio-addr = <3>;
+		phy-handle = <&qca8075_3>;
 		phy-mode = "sgmii";
-		mdio-bus = <&mdio>;
 	};
 
 	dp5: dp5 {
@@ -475,15 +469,12 @@
 		reg = <0x3a001800 0x200>;
 		qcom,mactype = <0>;
 		local-mac-address = [000000000000];
-		qcom,link-poll = <1>;
-		qcom,phy-mdio-addr = <4>;
+		phy-handle = <&qca8075_4>;
 		phy-mode = "sgmii";
-		mdio-bus = <&mdio>;
 	};
 };
 
 &wifi {
 	status = "okay";
-
 
 };
