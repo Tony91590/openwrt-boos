@@ -16,6 +16,6 @@ DEFAULT_PACKAGES += \
 	kmod-leds-gpio kmod-gpio-button-hotplug \
 	kmod-qca-nss-dp autocore luci-app-turboacc \
 	ath11k-firmware-ipq8074 kmod-ath11k-ahb \
-	wpad-basic-wolfssl uboot-envtools
+	wpad-basic-wolfssl uboot-envtools ipq-wifi
 
 $(eval $(call BuildTarget))
