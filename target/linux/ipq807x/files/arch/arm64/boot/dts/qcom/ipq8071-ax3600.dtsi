@@ -477,4 +477,5 @@
 &wifi {
 	status = "okay";
 
+	qcom,board_id = <658>;
 };
